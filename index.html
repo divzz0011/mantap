@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divzz — Programmer Portfolio</title>
+  <meta name="description" content="Portfolio profesional bertema programmer dengan neon pink & full animasi." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0b12;            /* Very dark blue-ish */
+      --bg-soft:#0f0f1a;
+      --txt:#e9e9ef;           /* Soft white */
+      --muted:#b7b7c9;
+      --neon:#ff2ead;          /* Neon Pink */
+      --neon-2:#00e7ff;        /* Accent Cyan for contrast */
+      --glass: rgba(255,255,255,.06);
+      --card: rgba(255,255,255,.08);
+      --radius: 18px;
+      --shadow: 0 10px 40px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--txt);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(255,46,173,.08), transparent 60%),
+                  radial-gradient(900px 600px at 90% 20%, rgba(0,231,255,.08), transparent 60%),
+                  linear-gradient(180deg, #09090f 0%, #0b0b12 40%, #0b0b12 100%);
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+
+    /* ====== Glow helpers ====== */
+    .glow{
+      position:relative;
+    }
+    .glow::after{
+      content:""; position:absolute; inset:-2px; border-radius:calc(var(--radius) + 2px);
+      background: radial-gradient(120px 60px at 20% 0%, rgba(255,46,173,.45), transparent 60%),
+                  radial-gradient(120px 60px at 80% 100%, rgba(0,231,255,.35), transparent 60%);
+      filter: blur(16px); opacity:.7; z-index:-1;
+    }
+
+    /* ====== Header ====== */
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(6px);
+      background:linear-gradient(180deg, rgba(11,11,18,.75), rgba(11,11,18,.35));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{max-width:1200px; margin:auto; display:flex; align-items:center; justify-content:space-between; padding:14px 18px}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:800; letter-spacing:.5px}
+    .brand .dot{width:12px; height:12px; border-radius:50%; background:var(--neon); box-shadow:0 0 18px var(--neon)}
+    .menu{display:flex; gap:18px; align-items:center}
+    .menu a{opacity:.85}
+    .menu a:hover{opacity:1}
+    .cta{padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.14); background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.0));}
+
+    .hamb{display:none; width:40px; height:40px; place-items:center; border-radius:12px; border:1px solid rgba(255,255,255,.12)}
+
+    /* ====== Hero ====== */
+    .hero{ position:relative; isolation:isolate; }
+    .hero canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:-2; }
+    .hero-inner{ max-width:1200px; margin:auto; padding:80px 18px 50px; display:grid; grid-template-columns:1.2fr .8fr; gap:28px; align-items:center; }
+    .tag{ display:inline-flex; gap:8px; align-items:center; padding:8px 12px; border-radius:999px; background:rgba(255,46,173,.12); border:1px solid rgba(255,46,173,.35); box-shadow:0 0 18px rgba(255,46,173,.25) inset; font-size:13px }
+    .title{ font-size:54px; line-height:1.05; margin:14px 0 }
+    .title .accent{ color:var(--neon); text-shadow:0 0 24px rgba(255,46,173,.45) }
+    .subtitle{ color:var(--muted) }
+    .actions{ display:flex; gap:14px; margin-top:22px; flex-wrap:wrap }
+    .btn{
+      padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.12);
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.0));
+      transition:.2s transform ease, .2s box-shadow ease;
+    }
+    .btn.primary{ background: radial-gradient(160px 60px at 30% 0%, rgba(255,46,173,.45), transparent 60%),
+                            radial-gradient(140px 60px at 90% 100%, rgba(0,231,255,.35), transparent 60%),
+                            linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border-color: rgba(255,46,173,.55);
+      box-shadow:0 8px 24px rgba(255,46,173,.22);
+    }
+    .btn:hover{ transform: translateY(-2px) }
+
+    .hero-card{
+      border-radius:var(--radius); background:var(--card); border:1px solid rgba(255,255,255,.08); padding:18px; box-shadow:var(--shadow);
+    }
+    .hero-list{ display:grid; gap:10px; margin-top:10px }
+    .hero-list li{ list-style:none; display:flex; gap:10px; align-items:flex-start; opacity:.9 }
+
+    /* ====== Sections ====== */
+    section{ max-width:1200px; margin:0 auto; padding:60px 18px }
+    .section-title{ font-size:28px; margin:0 0 18px; letter-spacing:.4px }
+    .muted{ color:var(--muted) }
+
+    /* ====== Skills ====== */
+    .skills{ display:flex; gap:18px; flex-wrap:wrap }
+    .chip{ padding:10px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.12); background:var(--glass); box-shadow: inset 0 0 24px rgba(255,46,173,.08) }
+
+    /* ====== Projects ====== */
+    .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px }
+    .card{
+      position:relative; border-radius:var(--radius); background:var(--card); border:1px solid rgba(255,255,255,.08); padding:16px; overflow:hidden; box-shadow:var(--shadow);
+      transform:translateY(14px); opacity:0; transition: .6s transform cubic-bezier(.22,1,.36,1), .6s opacity ease;
+    }
+    .card.reveal{ transform:translateY(0); opacity:1 }
+    .card .thumb{ height:160px; border-radius:12px; background:linear-gradient(135deg, rgba(255,46,173,.2), rgba(0,231,255,.15)); display:grid; place-items:center; border:1px solid rgba(255,255,255,.08) }
+    .card h3{ margin:12px 0 6px; font-size:18px }
+    .pill{ display:inline-block; padding:6px 10px; border-radius:999px; border:1px dashed rgba(255,255,255,.18); font-size:12px; opacity:.8 }
+    .card .actions{ justify-content:space-between }
+
+    /* ====== Contact ====== */
+    .contact{
+      display:grid; grid-template-columns:1.2fr .8fr; gap:18px; align-items:start
+    }
+    .contact .box{ border-radius:var(--radius); background:var(--card); border:1px solid rgba(255,255,255,.08); padding:18px; box-shadow:var(--shadow) }
+    .contact form{ display:grid; gap:12px }
+    .input{ padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--txt) }
+    textarea.input{ min-height:120px; resize:vertical }
+
+    footer{ text-align:center; padding:40px 18px 70px; color:var(--muted) }
+
+    /* ====== Floating social bubble ====== */
+    .bubble{
+      position:fixed; right:18px; bottom:18px; z-index:60; display:flex; flex-direction:column; gap:12px
+    }
+    .fab{ width:54px; height:54px; border-radius:50%; display:grid; place-items:center; border:1px solid rgba(255,255,255,.14); background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); box-shadow:0 8px 24px rgba(0,0,0,.35); transition:.2s transform ease }
+    .fab:hover{ transform: translateY(-3px) }
+
+    /* ====== Mobile ====== */
+    @media (max-width: 960px){
+      .hero-inner{ grid-template-columns:1fr; padding-top:60px }
+      .contact{ grid-template-columns:1fr }
+      .grid{ grid-template-columns:1fr 1fr }
+    }
+    @media (max-width: 640px){
+      .grid{ grid-template-columns:1fr }
+      .title{ font-size:40px }
+      .menu{ display:none }
+      .hamb{ display:grid }
+    }
+
+    /* ====== Keyframes ====== */
+    @keyframes floaty{ from{ transform:translateY(0) } 50%{ transform:translateY(-6px) } to{ transform:translateY(0) } }
+    @keyframes blink{ 0%,100%{ opacity:.3 } 50%{ opacity:1 } }
+    .blink{ animation:blink 1.2s infinite }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand"><span class="dot"></span> Divzz <span style="opacity:.5">/ Programmer</span></div>
+      <div class="menu">
+        <a href="#about">Tentang</a>
+        <a href="#skills">Skill</a>
+        <a href="#projects">Proyek</a>
+        <a href="#contact" class="cta">Kontak</a>
+      </div>
+      <button class="hamb" id="hamb" aria-label="Buka menu">☰</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ====== HERO ====== -->
+    <section class="hero" aria-label="Hero">
+      <canvas id="bg"></canvas>
+      <div class="hero-inner">
+        <div>
+          <span class="tag glow">💡 Programmer • Web & Game Dev</span>
+          <h1 class="title">Halo, saya <span class="accent">Divzz</span><br>membangun <span id="typing">aplikasi</span><span class="blink">|</span></h1>
+          <p class="subtitle">Fokus pada clean code, performa, dan pengalaman pengguna. Siap membantu membuat website modern, mini games, hingga tool produktivitas.</p>
+          <div class="actions">
+            <a class="btn primary" href="#projects">Lihat Proyek</a>
+            <a class="btn" href="#contact">Hubungi Saya</a>
+          </div>
+        </div>
+        <div class="hero-card glow">
+          <h3 style="margin:0 0 8px">Apa yang saya kerjakan</h3>
+          <ul class="hero-list">
+            <li>⚡ Web Development — HTML, CSS, JavaScript, Python (Flask/FastAPI)</li>
+            <li>🎮 Game Development — Godot & Pygame</li>
+            <li>☁️ Realtime & Auth — Firebase</li>
+            <li>🧹 Code refactor & optimasi performa</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== ABOUT ====== -->
+    <section id="about">
+      <h2 class="section-title">Tentang</h2>
+      <p class="muted">Saya suka membangun web apps, games, dan tools yang membantu orang. Saat ini mengeksplor Godot Engine dan pixel art, serta terus belajar teknologi baru.</p>
+    </section>
+
+    <!-- ====== SKILLS ====== -->
+    <section id="skills">
+      <h2 class="section-title">Skill & Tools</h2>
+      <div class="skills">
+        <span class="chip">HTML5</span>
+        <span class="chip">CSS3</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">Python</span>
+        <span class="chip">Flask</span>
+        <span class="chip">FastAPI</span>
+        <span class="chip">Node.js</span>
+        <span class="chip">Express</span>
+        <span class="chip">SQL</span>
+        <span class="chip">Firebase</span>
+        <span class="chip">Godot</span>
+        <span class="chip">Pygame</span>
+        <span class="chip">Git & GitHub</span>
+        <span class="chip">VS Code</span>
+      </div>
+    </section>
+
+    <!-- ====== PROJECTS ====== -->
+    <section id="projects">
+      <h2 class="section-title">Proyek Pilihan</h2>
+      <div class="grid">
+        <!-- Card 1 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>Web Kasir</h3>
+          <p class="muted">Aplikasi kasir dengan cetak struk dan perhitungan otomatis.</p>
+          <div class="actions">
+            <span class="pill">HTML • JS</span>
+            <a class="btn" href="#contact">Minta Demo</a>
+          </div>
+        </article>
+        <!-- Card 2 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>Portfolio Interaktif</h3>
+          <p class="muted">Website portofolio dengan animasi halus dan mode gelap.</p>
+          <div class="actions">
+            <span class="pill">HTML • CSS • JS</span>
+            <a class="btn" href="#contact">Lihat Source</a>
+          </div>
+        </article>
+        <!-- Card 3 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M8 12h8" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>Mini Games Web</h3>
+          <p class="muted">Koleksi game ringan berbasis browser.</p>
+          <div class="actions">
+            <span class="pill">Godot • Pygame</span>
+            <a class="btn" href="#contact">Coba Sekarang</a>
+          </div>
+        </article>
+        <!-- Card 4 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4 7h16v10H4z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M4 9h16" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>Location Tracker</h3>
+          <p class="muted">Penyimpanan lokasi real-time via Firebase.</p>
+          <div class="actions">
+            <span class="pill">JS • Firebase</span>
+            <a class="btn" href="#contact">Lihat Demo</a>
+          </div>
+        </article>
+        <!-- Card 5 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M7 7h10v10H7z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 2v5M12 17v5" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>YouTube Lyrics Player</h3>
+          <p class="muted">Pemutar video dengan lirik sinkron dan UI neon.</p>
+          <div class="actions">
+            <span class="pill">Web • UI/UX</span>
+            <a class="btn" href="#contact">Preview</a>
+          </div>
+        </article>
+        <!-- Card 6 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 6h12v12H6z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M6 12h12" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>Kasir Pro (Rencana)</h3>
+          <p class="muted">Versi lanjut: diskon, pajak, barcode, dan manajemen user.</p>
+          <div class="actions">
+            <span class="pill">Roadmap</span>
+            <a class="btn" href="#contact">Kolaborasi?</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== CONTACT ====== -->
+    <section id="contact" class="contact">
+      <div class="box">
+        <h2 class="section-title">Kontak</h2>
+        <p class="muted">Butuh website/aplikasi? Ceritakan idemu 👇</p>
+        <form onsubmit="event.preventDefault(); alert('Terima kasih! Pesan kamu sudah terkirim (demo).'); this.reset();">
+          <input class="input" type="text" placeholder="Nama" required>
+          <input class="input" type="email" placeholder="Email" required>
+          <textarea class="input" placeholder="Pesan" required></textarea>
+          <button class="btn primary" type="submit">Kirim</button>
+        </form>
+      </div>
+      <div class="box">
+        <h3 style="margin-top:0">Jalur Cepat</h3>
+        <div style="display:grid; gap:10px; margin-top:10px">
+          <a class="btn" href="https://wa.me/6280000000000" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn" href="https://instagram.com/divzz_neverlouse" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn" href="mailto:divzz@example.com" target="_blank" rel="noopener">Email</a>
+        </div>
+        <p class="muted" style="margin-top:14px">Ganti nomor/username/email sesuai punyamu.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Divzz — "Code with purpose, build with passion."
+  </footer>
+
+  <!-- ====== Floating Social ====== -->
+  <div class="bubble">
+    <a class="fab" href="#contact" title="Kontak">
+      ✉️
+    </a>
+    <a class="fab" href="#projects" title="Proyek" style="animation:floaty 3s ease-in-out infinite;">
+      ⚙️
+    </a>
+  </div>
+
+  <script>
+    // ====== Mobile menu (simple) ======
+    const hamb = document.getElementById('hamb');
+    hamb?.addEventListener('click', () => {
+      const menu = document.querySelector('.menu');
+      if(!menu) return;
+      if(getComputedStyle(menu).display === 'none'){ menu.style.display = 'flex'; }
+      else{ menu.style.display = 'none'; }
+    });
+
+    // ====== Typing effect ======
+    const words = ['aplikasi', 'website', 'mini games', 'tools'];
+    let wi = 0, ci = 0, erasing = false;
+    const el = document.getElementById('typing');
+    function type(){
+      const w = words[wi % words.length];
+      if(!erasing){
+        el.textContent = w.slice(0, ++ci);
+        if(ci === w.length){ erasing = true; setTimeout(type, 1200); return; }
+      } else {
+        el.textContent = w.slice(0, --ci);
+        if(ci === 0){ erasing = false; wi++; }
+      }
+      setTimeout(type, erasing ? 40 : 70);
+    }
+    type();
+
+    // ====== Reveal on scroll ======
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('reveal'); io.unobserve(e.target); } });
+    }, { threshold:.25 });
+    document.querySelectorAll('.card').forEach(c=> io.observe(c));
+
+    // ====== Year ======
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ====== Neon Particle Mesh Background (Canvas) ======
+    const cvs = document.getElementById('bg');
+    const ctx = cvs.getContext('2d');
+    let points = [], w, h, raf;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function resize(){
+      w = cvs.width = innerWidth; h = cvs.height = Math.max(500, innerHeight*0.7);
+      points = [];
+      const gap = Math.max(60, Math.min(100, w/12));
+      for(let x = -gap; x < w + gap; x += gap){
+        for(let y = -gap; y < h + gap; y += gap){
+          points.push({ x: x + (Math.random()*10-5), y: y + (Math.random()*10-5), ox: x, oy: y, s: .6 + Math.random()*1.4 });
+        }
+      }
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      // glow background
+      const g = ctx.createLinearGradient(0,0,w,h);
+      g.addColorStop(0, 'rgba(255,46,173,0.15)');
+      g.addColorStop(1, 'rgba(0,231,255,0.12)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+
+      // animate points
+      for(const p of points){
+        p.x += Math.sin((p.oy + performance.now()/1000) * 0.4) * 0.08 * p.s;
+        p.y += Math.cos((p.ox + performance.now()/1300) * 0.4) * 0.08 * p.s;
+      }
+
+      // draw lines
+      ctx.lineWidth = 0.6;
+      for(let i=0;i<points.length;i++){
+        const a = points[i];
+        for(let j=i+1;j<points.length;j++){
+          const b = points[j];
+          const dx = a.x-b.x, dy=a.y-b.y, d = Math.hypot(dx,dy);
+          if(d<90){
+            const t = 1 - d/90;
+            const neon = `rgba(255,46,173,${0.35*t})`;
+            const cyan = `rgba(0,231,255,${0.25*t})`;
+            ctx.strokeStyle = Math.random()>.5? neon : cyan;
+            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+          }
+        }
+      }
+
+      // points
+      for(const p of points){
+        ctx.beginPath(); ctx.arc(p.x,p.y,1.2,0,Math.PI*2);
+        ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.fill();
+      }
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', ()=>{ cancelAnimationFrame(raf); resize(); if(!prefersReduced) draw(); });
+    resize();
+    if(!prefersReduced) draw();
+  </script>
+</body>
+</html>
